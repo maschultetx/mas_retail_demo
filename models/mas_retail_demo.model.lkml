@@ -1,0 +1,237 @@
+connection: "retail_demo_mas"
+#connection: "retail_demo_mas_1audev"
+label: "Actian Retail Demo"
+
+# include all the views
+include: "/views/**/*.view"
+
+datagroup: mas_retail_demo_default_datagroup {
+  sql_trigger: SELECT CURRENT_DATE() ;;
+  max_cache_age: "24 hours"
+}
+
+persist_with: mas_retail_demo_default_datagroup
+
+# Value formats:
+named_value_format: currency_k {
+  value_format: "\"@{MAIN_CURRENCY_SYMBOL}\"#,##0.0,\" K\""
+}
+named_value_format: currency {
+  value_format: "\"@{MAIN_CURRENCY_SYMBOL}\"#,##0.00"
+}
+named_value_format: currency_0 {
+  value_format: "\"@{MAIN_CURRENCY_SYMBOL}\"#,##0"
+}
+named_value_format: unit_k {
+  value_format: "#,##0.0,\" K\""
+}
+
+explore: channels {}
+
+explore: city {}
+
+explore: country {
+  join: customer {
+    type: left_outer
+    sql_on: ${country.country_code} = ${customer.country_code} ;;
+    relationship: one_to_many
+  }
+}
+
+
+explore: customer {
+  join: country {
+    type: left_outer
+    sql_on: ${customer.country_code} = ${country.country_code} ;;
+    relationship: many_to_one
+  }
+  join: gender {
+    type: left_outer
+    sql_on: ${customer.gender} = ${gender.gender} ;;
+    relationship: many_to_one
+  }
+  join: state {
+    type: left_outer
+    sql_on: ${customer.state} = ${state.state} ;;
+    relationship: many_to_one
+  }
+
+  join: orders {
+    type: left_outer
+    sql_on: ${customer.customer_id} = ${orders.order_id} ;;
+    relationship: one_to_many
+  }
+
+  join: lineitem {
+    type: left_outer
+    sql_on: ${orders.order_id} = ${lineitem.order_id} ;;
+    relationship: one_to_many
+  }
+
+  join: promotion {
+    type: left_outer
+    sql_on: ${lineitem.promotion_id} = ${promotion.promotion_id} ;;
+    relationship: many_to_one
+  }
+
+  join: store {
+    type: left_outer
+    sql_on: ${orders.store_id} = ${store.store_id} ;;
+    relationship: many_to_one
+  }
+
+  join: product {
+    type: left_outer
+    sql_on: ${product.product_id} = ${lineitem.product_id} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_family {
+    type: left_outer
+    sql_on: ${product.family} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_category {
+    type: left_outer
+    sql_on: ${product.category} = ${prod_category.category} ;;
+    relationship: many_to_one
+  }
+
+}
+
+explore: date_dimension {}
+
+explore: gender {
+  join: customer {
+    type: left_outer
+    sql_on: ${gender.gender} = ${customer.gender} ;;
+    relationship: one_to_many
+  }
+}
+
+#explore: lineitem {
+#  join: product {
+#    type: left_outer
+#    sql_on: ${lineitem.product_id} = ${product.product_id} ;;
+#    relationship: many_to_one
+#  }
+
+#  join: promotion {
+#    type: left_outer
+#    sql_on: ${lineitem.promotion_id} = ${promotion.promotion_id} ;;
+#    relationship: many_to_one
+#  }
+
+#  join: orders {
+#    type: left_outer
+#    sql_on: ${lineitem.order_id} = ${orders.customer_id} ;;
+#    relationship: many_to_one
+#  }
+
+#}
+
+#explore: orders {
+#  join: customer {
+#    type: left_outer
+#    sql_on: ${orders.customer_id} = ${customer.customer_id} ;;
+#    relationship: many_to_one
+#  }
+
+#  join: store {
+#    type: left_outer
+#    sql_on: ${orders.store_id} = ${store.store_id} ;;
+#    relationship: many_to_one
+#  }
+#}
+
+explore: prod_category {
+  join: prod_family {
+    type: left_outer
+    sql_on:  ${prod_category.family} = ${prod_family.family} ;;
+    relationship:  many_to_one
+  }
+}
+
+explore: prod_family {
+  join: prod_category {
+    type: left_outer
+    sql_on:  ${prod_family.family} = ${prod_category.family} ;;
+    relationship:  many_to_one
+  }
+}
+
+# could add more with this later - too complex for just a demo
+explore: prod_subcategory {}
+
+explore: product {
+  join: lineitem {
+    type: left_outer
+    sql_on: ${product.product_id} = ${lineitem.product_id} ;;
+    relationship: one_to_many
+  }
+
+  join: prod_family {
+    type: left_outer
+    sql_on: ${product.family} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_category {
+    type: left_outer
+    sql_on: ${product.category} = ${prod_category.category} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: product_in_subcategory {
+  join: product {
+    type: left_outer
+    sql_on: ${product_in_subcategory.product_id} = ${product.product_id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: promo_category {
+  join: promo_subcategory {
+    type: left_outer
+    sql_on: ${promo_category.category} = ${promo_subcategory.category} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: promo_subcategory {}
+
+explore: promotion {
+  join: prod_category {
+    type: left_outer
+    sql_on: ${promotion.category} = ${prod_category.category} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: region {}
+
+explore: state {
+  join: customer {
+    type: left_outer
+    sql_on: ${state.state} = ${customer.state} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: store {}
+
+explore: store_promotion {
+  join: promotion {
+    type: left_outer
+    sql_on: ${store_promotion.promotion_id} = ${promotion.promotion_id} ;;
+    relationship: many_to_one
+  }
+
+  join: store {
+    type: left_outer
+    sql_on: ${store_promotion.store_id} = ${store.store_id} ;;
+    relationship: many_to_one
+  }
+}

@@ -1,0 +1,145 @@
+view: lineitem {
+  sql_table_name: retail.lineitem ;;
+
+  dimension: primary_key {
+    primary_key: yes
+    sql: CONCAT(${TABLE}.order_id, ${TABLE}.linenumber) ;;
+  }
+
+  dimension: discount_percentage {
+    type: number
+    sql: ${TABLE}.discount_percentage ;;
+  }
+
+  dimension: line_cost {
+    type: number
+    sql: ${TABLE}.line_cost ;;
+  }
+
+  dimension: line_margin {
+    type: number
+    sql: ${TABLE}.line_margin ;;
+  }
+
+  dimension: line_price {
+    type: number
+    sql: ${TABLE}.line_price ;;
+  }
+
+  dimension: linenumber {
+    type: number
+    sql: ${TABLE}.linenumber ;;
+  }
+
+  dimension_group: order {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.order_date ;;
+  }
+
+  dimension: product_category {
+    type: string
+    sql: ${TABLE}.product_category ;;
+  }
+
+  dimension: product_family {
+    type: string
+    sql: ${TABLE}.product_family ;;
+  }
+
+  dimension: product_id {
+    type: number
+    # hidden: yes
+    sql: ${TABLE}.product_id ;;
+  }
+
+  dimension: promotion_id {
+    type: number
+    # hidden: yes
+    sql: ${TABLE}.promotion_id ;;
+  }
+
+  dimension: quantity {
+    type: number
+    sql: ${TABLE}.quantity ;;
+  }
+
+  dimension: return_flag {
+    type: string
+    sql: ${TABLE}.return_flag ;;
+  }
+
+  dimension: sale_price {
+    type: number
+    sql: ${TABLE}.sale_price ;;
+  }
+
+  dimension: order_id {
+    type: number
+    sql: ${TABLE}.order_id ;;
+  }
+
+  dimension: unit_cost {
+    type: number
+    sql: ${TABLE}.unit_cost ;;
+  }
+
+  ##### DERIVED DIMENSIONS #####
+
+  dimension: gross_margin {
+    type: number
+    sql: ${sale_price} - ${unit_cost} ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [product.product_id, promotion.promotion_id, customer.customer_id, customer.first_name, customer.last_name]
+  }
+
+##### MEASURES #####
+
+  measure: total_sales {
+    type: sum
+    sql: ${sale_price} ;;
+    #value_format_name: currency_k
+    value_format_name:  currency
+    drill_fields: [transactions.drill_detail*]
+  }
+
+  measure: total_gross_margin {
+    type: sum
+    sql: ${gross_margin} ;;
+    value_format_name: currency_k
+    drill_fields: [transactions.drill_detail*]
+  }
+
+  measure: total_quantity {
+    type: sum
+    sql: ${quantity} ;;
+    #value_format_name: unit_k
+    drill_fields: [transactions.drill_detail*]
+  }
+
+  #measure: average_basket_size {
+  #  type: number
+  #  sql: ${total_sales}/NULLIF(${orders.number_of_transactions},0) ;;
+  #  value_format_name: currency
+  #  drill_fields: [transactions.drill_detail*]
+  #}
+
+  measure: average_item_price {
+    type: number
+    sql: ${total_sales}/NULLIF(${total_quantity},0) ;;
+    value_format_name: currency
+    drill_fields: [transactions.drill_detail*]
+  }
+
+}

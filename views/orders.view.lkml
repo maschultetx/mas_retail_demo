@@ -54,6 +54,7 @@ view: orders {
   dimension: order_id {
     type: number
     sql: ${TABLE}.order_id ;;
+    primary_key:  yes
   }
 
   dimension: web_order {
@@ -61,8 +62,15 @@ view: orders {
     sql: ${TABLE}.web_order ;;
   }
 
+
+  measure: order_growth {
+    type:  percent_of_previous
+    sql: ${count} ;;
+  }
+
   measure: count {
     type: count
+    label: "Number of Orders"
     drill_fields: [customer.customer_id, customer.first_name, customer.last_name, store.store_id, store.name]
   }
 }

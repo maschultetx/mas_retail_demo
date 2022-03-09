@@ -92,8 +92,6 @@ view: lineitem {
     sql: ${TABLE}.unit_cost ;;
   }
 
-  ##### DERIVED DIMENSIONS #####
-
   dimension: gross_margin {
     type: number
     sql: ${sale_price} - ${unit_cost} ;;
@@ -102,6 +100,11 @@ view: lineitem {
   measure: count {
     type: count
     drill_fields: [product.product_id, promotion.promotion_id, customer.customer_id, customer.first_name, customer.last_name]
+  }
+
+  measure: distinct_orders {
+    type:  count_distinct
+    sql: ${order_id} ;;
   }
 
 ##### MEASURES #####
@@ -128,18 +131,29 @@ view: lineitem {
     drill_fields: [transactions.drill_detail*]
   }
 
-  #measure: average_basket_size {
-  #  type: number
-  #  sql: ${total_sales}/NULLIF(${orders.number_of_transactions},0) ;;
-  #  value_format_name: currency
-  #  drill_fields: [transactions.drill_detail*]
-  #}
+  measure: average_basket_size {
+    type: number
+    #sql: ${total_sales}/NULLIF(${orders.number_of_transactions},0) ;;
+    sql: ${total_sales}/NULLIF(${distinct_orders},0) ;;
+    value_format_name: currency
+    drill_fields: [transactions.drill_detail*]
+  }
 
   measure: average_item_price {
     type: number
     sql: ${total_sales}/NULLIF(${total_quantity},0) ;;
     value_format_name: currency
     drill_fields: [transactions.drill_detail*]
+  }
+
+  measure: sales_growth {
+    type:  percent_of_previous
+    sql: ${total_sales} ;;
+  }
+
+  measure: basket_growth {
+    type:  percent_of_previous
+    sql: ${average_basket_size} ;;
   }
 
 }

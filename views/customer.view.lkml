@@ -145,15 +145,15 @@ view: customer {
     #}
   }
 
-  dimension: zipcode_nodrill {
-    type: zipcode
-    sql: ${TABLE}.zipcode ;;
-    group_label: "Address Info"
-    link: {
-      url: "/dashboards/61?Zipcode={{ customer.zipcode_nodrill._value | encode_uri}}"
-      label: "See Customers in This Zipcode"
-    }
-  }
+  #dimension: zipcode_nodrill {
+  #  type: zipcode
+  #  sql: ${TABLE}.zipcode ;;
+  #  group_label: "Address Info"
+  #  link: {
+  #    url: "/dashboards/61?Zipcode={{ customer.zipcode_nodrill._value | encode_uri}}"
+  #    label: "See Customers in This Zipcode"
+  #  }
+  #}
 
   ##### CUSTOM DIMENSIONS #####
 
@@ -164,8 +164,9 @@ view: customer {
     sql_longitude: ${TABLE}.longitude ;;
     link: {
       #url: "/dashboards/59?Address=%22{{ customers.address._value | encode_uri}}"
-      url: "/dashboards/63?Address=%22{{ customer.address._value | encode_uri}}%22&Location={{customer.location._value | encode_uri}}"
-      label: "Location Deep-Dive"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/63?Address=%22{{ customer.address._value | encode_uri}}%22&Location={{customer.location._value | encode_uri}}"
+      #url: "https://actianavalanchepartner.cloud.looker.com/dashboards/63?Address=%22{{ customer.address._value | encode_uri}}%22"
+      label: "Customer Location Deep-Dive"
       icon_url: "https://img.icons8.com/cotton/2x/worldwide-location.png"
     }
   }
@@ -215,4 +216,20 @@ view: customer {
       orders_texas.count
     ]
   }
+
+  filter: customer_select {
+    suggest_dimension: customer_id
+  }
+
+  dimension: customer_comparitor {
+    type: string
+    sql:
+
+    CASE
+      WHEN {% condition customer_select %} ${customer.customer_id} {% endcondition %}
+      THEN ${customer.customer_id}
+      ELSE 'Rest of Population'
+    END ;;
+    }
+
 }

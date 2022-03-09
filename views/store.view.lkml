@@ -10,24 +10,34 @@ view: store {
   }
 
   dimension: address {
+    group_label: "Address Info"
     type: string
     sql: ${TABLE}.address ;;
   }
 
   dimension: city {
+    group_label: "Address Info"
     type: string
     sql: ${TABLE}.city ;;
   }
 
   dimension: country {
+    group_label: "Address Info"
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
 
   dimension: country_code {
+    group_label: "Address Info"
     type: string
     sql: ${TABLE}.country_code ;;
+  }
+
+  # field to put US store first
+  dimension: sort_assist {
+    type: number
+    sql: if(${TABLE}.country_code='US',0,1) ;;
   }
 
   dimension_group: date_opened {
@@ -58,6 +68,11 @@ view: store {
     label: "Store Name"
     type: string
     sql: ${TABLE}.name ;;
+    link: {
+      label: "Store Deep-Dive"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
+      icon_url: "/favicon.ico"
+    }
   }
 
   dimension: phone_number {
@@ -71,6 +86,7 @@ view: store {
   }
 
   dimension: state {
+    group_label: "Address Info"
     type: string
     sql: ${TABLE}.state ;;
   }
@@ -91,6 +107,7 @@ view: store {
   }
 
   dimension: zipcode {
+    group_label: "Address Info"
     type: zipcode
     sql: ${TABLE}.zipcode ;;
   }
@@ -100,6 +117,28 @@ view: store {
     type: number
     sql: null ;;
   }
+
+  filter: store_comparison_filter {
+    type: string
+    #group_label: "Store Comparison"
+    suggest_dimension: store.name
+  }
+
+  dimension: store_comparison {
+    type: string
+    #group_label: "Store Comparison"
+    sql: CASE
+      WHEN {% condition store_comparison_filter %} ${name} {% endcondition %} THEN ${name}
+      ELSE 'Other Stores'
+    END;;
+    #sql: CASE
+    #  WHEN {{ _filters['store.name'] }} THEN ${name}
+    #  ELSE 'Other Stores'
+    #END;;
+    #sql: IF({% condition store_comparison_filter %} ${name} {% endcondition %}, ${name}, "Other Stores" );;
+
+  }
+
 
 ##### DERIVED DIMENSIONS #####
 

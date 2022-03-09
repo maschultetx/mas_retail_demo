@@ -1,5 +1,5 @@
-connection: "retail_demo_mas"
-#connection: "retail_demo_mas_1audev"
+#connection: "retail_demo_mas"
+connection: "retail_demo_mas_1audev"
 label: "Actian Retail Demo"
 
 # include all the views
@@ -7,7 +7,7 @@ include: "/views/**/*.view"
 
 datagroup: mas_retail_demo_default_datagroup {
   sql_trigger: SELECT CURRENT_DATE() ;;
-  max_cache_age: "24 hours"
+  max_cache_age: "15 seconds"
 }
 
 persist_with: mas_retail_demo_default_datagroup
@@ -26,7 +26,11 @@ named_value_format: unit_k {
   value_format: "#,##0.0,\" K\""
 }
 
+explore: affinity {}
+
 explore: channels {}
+
+explore: word_cloud {}
 
 explore: city {}
 
@@ -58,9 +62,16 @@ explore: customer {
 
   join: orders {
     type: left_outer
-    sql_on: ${customer.customer_id} = ${orders.order_id} ;;
+    sql_on: ${customer.customer_id} = ${orders.customer_id} ;;
     relationship: one_to_many
   }
+
+  join: rolling_year {
+    type: left_outer
+    sql_on: year(${orders.order_date})=${rolling_year.full_year} ;;
+    relationship: many_to_one
+  }
+
 
   join: lineitem {
     type: left_outer
@@ -98,6 +109,11 @@ explore: customer {
     relationship: many_to_one
   }
 
+  join: store_aggregates {
+    type: left_outer
+    sql_on: ${orders.store_id} = ${store_aggregates.store_id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: date_dimension {}
@@ -110,40 +126,63 @@ explore: gender {
   }
 }
 
-#explore: lineitem {
-#  join: product {
-#    type: left_outer
-#    sql_on: ${lineitem.product_id} = ${product.product_id} ;;
-#    relationship: many_to_one
-#  }
 
-#  join: promotion {
-#    type: left_outer
-#    sql_on: ${lineitem.promotion_id} = ${promotion.promotion_id} ;;
-#    relationship: many_to_one
-#  }
+explore: orders {
+  join: customer {
+    type: left_outer
+    sql_on: ${orders.customer_id} = ${customer.customer_id} ;;
+    relationship: many_to_one
+  }
 
-#  join: orders {
-#    type: left_outer
-#    sql_on: ${lineitem.order_id} = ${orders.customer_id} ;;
-#    relationship: many_to_one
-#  }
+  join: lineitem {
+    type: left_outer
+    sql_on: ${orders.order_id} = ${lineitem.order_id} ;;
+    relationship: one_to_many
+  }
 
-#}
+  join: promotion {
+    type: left_outer
+    sql_on: ${lineitem.promotion_id} = ${promotion.promotion_id} ;;
+    relationship: many_to_one
+  }
 
-#explore: orders {
-#  join: customer {
-#    type: left_outer
-#    sql_on: ${orders.customer_id} = ${customer.customer_id} ;;
-#    relationship: many_to_one
-#  }
+  join: store {
+    type: full_outer
+    sql_on: ${orders.store_id} = ${store.store_id} ;;
+    relationship: many_to_one
+  }
 
-#  join: store {
-#    type: left_outer
-#    sql_on: ${orders.store_id} = ${store.store_id} ;;
-#    relationship: many_to_one
-#  }
-#}
+  join: product {
+    type: left_outer
+    sql_on: ${product.product_id} = ${lineitem.product_id} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_family {
+    type: left_outer
+    sql_on: ${product.family} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_category {
+    type: left_outer
+    sql_on: ${product.category} = ${prod_category.category} ;;
+    relationship: many_to_one
+  }
+
+  join: store_aggregates {
+    type: left_outer
+    sql_on: ${orders.store_id} = ${store_aggregates.store_id} ;;
+    relationship: many_to_one
+  }
+
+  join: rolling_year {
+    type: left_outer
+    sql_on: year(${orders.order_date})=${rolling_year.full_year} ;;
+    relationship: many_to_one
+  }
+
+}
 
 explore: prod_category {
   join: prod_family {
@@ -200,15 +239,15 @@ explore: promo_category {
   }
 }
 
-explore: promo_subcategory {}
+#explore: promo_subcategory {}
 
-explore: promotion {
-  join: prod_category {
-    type: left_outer
-    sql_on: ${promotion.category} = ${prod_category.category} ;;
-    relationship: one_to_many
-  }
-}
+#explore: promotion {
+#  join: prod_category {
+#    type: left_outer
+#    sql_on: ${promotion.category} = ${prod_category.category} ;;
+#    relationship: one_to_many
+#  }
+#}
 
 explore: region {}
 
@@ -220,12 +259,48 @@ explore: state {
   }
 }
 
-explore: store {}
+explore: store {
+  join: store_aggregates {
+    type: left_outer
+    sql_on: ${store.store_id} = ${store_aggregates.store_id} ;;
+    relationship: one_to_one
+  }
+
+  join: orders {
+    type: left_outer
+    sql_on: ${store.store_id} = ${orders.store_id} ;;
+    relationship: one_to_many
+  }
+
+  join: rolling_year {
+    type: left_outer
+    sql_on: year(${orders.order_date})=${rolling_year.full_year} ;;
+    relationship: many_to_one
+  }
+
+  join: top_store_products {
+    type: inner
+    sql_on: ${store.store_id} = ${top_store_products.store_id} ;;
+    relationship: one_to_many
+  }
+
+  join: product {
+    type: left_outer
+    sql_on: ${product.product_id} = ${top_store_products.product_id} ;;
+    relationship: one_to_many
+  }
+}
 
 explore: store_promotion {
   join: promotion {
-    type: left_outer
+    type: inner
     sql_on: ${store_promotion.promotion_id} = ${promotion.promotion_id} ;;
+    relationship: many_to_one
+  }
+
+  join: product {
+    type: inner
+    sql_on: ${promotion.category} = ${product.category} and ${promotion.subcategory} = ${product.subcategory} ;;
     relationship: many_to_one
   }
 
@@ -234,4 +309,19 @@ explore: store_promotion {
     sql_on: ${store_promotion.store_id} = ${store.store_id} ;;
     relationship: many_to_one
   }
+
+  join: orders {
+    type: left_outer
+    sql_on: ${store_promotion.store_id} = ${orders.store_id} ;;
+    #sql_where:  ${orders.order_date} between ${promotion.begin_date} and ${promotion.end_date} ;;
+    relationship: many_to_one
+  }
+
+  join: lineitem {
+    type: left_outer
+    sql_on: ${orders.order_id} = ${lineitem.order_id} ;;
+    relationship: many_to_one
+  }
+
+
 }

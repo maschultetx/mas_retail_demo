@@ -97,9 +97,24 @@ view: lineitem {
     sql: ${sale_price} - ${unit_cost} ;;
   }
 
+  measure: profit_percent {
+    type: number
+    sql: ${total_gross_margin} * 100 / ${total_sales} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [product.product_id, promotion.promotion_id, customer.customer_id, customer.first_name, customer.last_name]
+  }
+
+  measure: return_count {
+    type: count
+    filters: [return_flag: "-N"]
+  }
+
+  measure: return_percent {
+    type: number
+    sql: ${return_count} * 100 / ${count} ;;
   }
 
   measure: distinct_orders {

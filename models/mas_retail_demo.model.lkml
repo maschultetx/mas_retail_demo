@@ -6,8 +6,8 @@ label: "Actian Retail Demo"
 include: "/views/**/*.view"
 
 datagroup: mas_retail_demo_default_datagroup {
-  sql_trigger: SELECT CURRENT_DATE() ;;
-  max_cache_age: "15 seconds"
+  #sql_trigger: SELECT CURRENT_DATE() ;;
+  max_cache_age: "0 seconds"
 }
 
 persist_with: mas_retail_demo_default_datagroup

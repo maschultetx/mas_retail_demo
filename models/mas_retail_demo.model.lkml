@@ -1,5 +1,6 @@
 #connection: "retail_demo_mas"
 connection: "retail_demo_mas_1audev"
+#connection: "retail_demo_mas"
 label: "Actian Retail Demo"
 
 # include all the views
@@ -42,6 +43,7 @@ explore: country {
   }
 }
 
+explore: dbinfo{}
 
 explore: customer {
   join: country {
@@ -64,6 +66,12 @@ explore: customer {
     type: left_outer
     sql_on: ${customer.customer_id} = ${orders.customer_id} ;;
     relationship: one_to_many
+  }
+
+  join: distance_to_store {
+    type: left_outer
+    sql_on: ${customer.customer_id} = ${distance_to_store.customer_id} ;;
+    relationship: one_to_one
   }
 
   join: rolling_year {
@@ -126,6 +134,8 @@ explore: gender {
   }
 }
 
+explore: lineitem {}
+
 
 explore: orders {
   join: customer {
@@ -152,7 +162,7 @@ explore: orders {
     relationship: many_to_one
   }
 
-  join: product {
+  join: product  {
     type: left_outer
     sql_on: ${product.product_id} = ${lineitem.product_id} ;;
     relationship: many_to_one
@@ -249,6 +259,7 @@ explore: promo_category {
 #  }
 #}
 
+explore: rolling_year {}
 explore: region {}
 
 explore: state {

@@ -114,7 +114,7 @@ view: lineitem {
 
   measure: return_percent {
     type: number
-    sql: ${return_count} * 100 / ${count} ;;
+    sql: ${return_count} * 100.00 / ${count} * 1.0 ;;
   }
 
   measure: distinct_orders {

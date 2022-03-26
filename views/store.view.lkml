@@ -13,12 +13,14 @@ view: store {
     group_label: "Address Info"
     type: string
     sql: ${TABLE}.address ;;
+    case_sensitive: no
   }
 
   dimension: city {
     group_label: "Address Info"
     type: string
     sql: ${TABLE}.city ;;
+    case_sensitive: no
   }
 
   dimension: country {
@@ -73,6 +75,7 @@ view: store {
       url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
       icon_url: "/favicon.ico"
     }
+    case_sensitive: no
   }
 
   dimension: phone_number {
@@ -94,11 +97,13 @@ view: store {
   dimension: store_manager {
     type: string
     sql: ${TABLE}.store_manager ;;
+    case_sensitive: no
   }
 
   dimension: store_manager_email {
     type: string
     sql: ${TABLE}.store_manager_email ;;
+    case_sensitive: no
   }
 
   dimension: store_manager_mobile {

@@ -12,4 +12,9 @@ view: rolling_year {
     sql: ${TABLE}.year_pos ;;
   }
 
+  measure: count {
+    type: count
+    drill_fields: []
+  }
+
  }

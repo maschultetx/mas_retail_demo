@@ -13,12 +13,14 @@ view: customer {
     type: string
     sql: ${TABLE}.address ;;
     group_label: "Address Info"
+    case_sensitive: no
   }
 
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
     group_label: "Address Info"
+    case_sensitive: no
   }
 
   dimension: country_code {
@@ -44,6 +46,7 @@ view: customer {
   dimension: first_name {
     type: string
     sql: ${TABLE}.first_name ;;
+    case_sensitive: no
   }
 
   dimension: gender {
@@ -54,6 +57,7 @@ view: customer {
   dimension: last_name {
     type: string
     sql: ${TABLE}.last_name ;;
+    case_sensitive: no
   }
 
   dimension_group: last_order {
@@ -110,6 +114,7 @@ view: customer {
   dimension: middle_initial {
     type: string
     sql: ${TABLE}.middle_initial ;;
+    case_sensitive: no
   }
 
   dimension: number_of_orders {
@@ -132,12 +137,14 @@ view: customer {
     type: string
     sql: ${TABLE}.street ;;
     group_label: "Address Info"
+    case_sensitive: no
   }
 
   dimension: zipcode_drill {
     type: zipcode
     sql: ${TABLE}.zipcode ;;
     group_label: "Address Info"
+    label: "Zip Code"
     # don't need no longer have separate dashboard, using crossfiltering.
     #link: {
     #  url: "/dashboards/61?Zipcode={{ customer.zipcode_drill._value | encode_uri}}"
@@ -145,15 +152,6 @@ view: customer {
     #}
   }
 
-  #dimension: zipcode_nodrill {
-  #  type: zipcode
-  #  sql: ${TABLE}.zipcode ;;
-  #  group_label: "Address Info"
-  #  link: {
-  #    url: "/dashboards/61?Zipcode={{ customer.zipcode_nodrill._value | encode_uri}}"
-  #    label: "See Customers in This Zipcode"
-  #  }
-  #}
 
   ##### CUSTOM DIMENSIONS #####
 
@@ -176,6 +174,7 @@ view: customer {
     group_label: "Address Info"
     sql: ${address} ;;
     html: <img src="https://maps.googleapis.com/maps/api/streetview?size=700x400&location={{value | encode_uri}}&fov=120&key=@{GOOGLE_MAPS_API_KEY}" ;;
+    case_sensitive: no
   }
 
   dimension: age {

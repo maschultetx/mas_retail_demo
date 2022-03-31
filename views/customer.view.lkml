@@ -9,6 +9,12 @@ view: customer {
     sql: ${TABLE}.customer_id ;;
   }
 
+  # just like customer_id but get rid of underscore to work around url problem which I can't remember how to fix
+  dimension: custid {
+    type: number
+    sql: ${TABLE}.customer_id ;;
+  }
+
   dimension: address {
     type: string
     sql: ${TABLE}.address ;;
@@ -162,9 +168,10 @@ view: customer {
     sql_longitude: ${TABLE}.longitude ;;
     link: {
       #url: "/dashboards/59?Address=%22{{ customers.address._value | encode_uri}}"
-      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/63?Address=%22{{ customer.address._value | encode_uri}}%22&Location={{customer.location._value | encode_uri}}"
+      #url: "https://actianavalanchepartner.cloud.looker.com/dashboards/63?Address=%22{{ customer.address._value | encode_uri}}%22&Location={{customer.location._value | encode_uri}}"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/63?Address=%22{{ customer.address._value | encode_uri}}%22&Location={{customer.location._value | encode_uri}}&Custid={{customer.custid._value | encode_uri}}"
       #url: "https://actianavalanchepartner.cloud.looker.com/dashboards/63?Address=%22{{ customer.address._value | encode_uri}}%22"
-      label: "Customer Location Deep-Dive"
+      label: "Customer Detail"
       icon_url: "https://img.icons8.com/cotton/2x/worldwide-location.png"
     }
   }

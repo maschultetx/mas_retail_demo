@@ -1,6 +1,6 @@
 #connection: "retail_demo_mas"
-connection: "retail_demo_mas_1audev"
-#connection: "retail_demo_mas"
+#connection: "retail_demo_mas_1audev"
+connection: "retail_demo_mas"
 label: "Actian Retail Demo"
 
 # include all the views

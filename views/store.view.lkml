@@ -70,8 +70,14 @@ view: store {
     label: "Store Name"
     type: string
     sql: ${TABLE}.name ;;
+
     link: {
-      label: "Store Deep-Dive"
+      label: "Store KPIs"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/78?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
+      icon_url: "/favicon.ico"
+    }
+    link: {
+      label: "Store Detail"
       url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
       icon_url: "/favicon.ico"
     }

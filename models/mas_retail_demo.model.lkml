@@ -298,6 +298,8 @@ explore: promo_category {
 explore: rolling_year {}
 explore: region {}
 
+explore: store_aggregates {}
+
 explore: state {
   join: customer {
     type: left_outer

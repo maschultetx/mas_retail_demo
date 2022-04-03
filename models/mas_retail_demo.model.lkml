@@ -298,7 +298,21 @@ explore: promo_category {
 explore: rolling_year {}
 explore: region {}
 
-explore: store_aggregates {}
+explore: store_aggregates {
+
+  join: rolling_year {
+    type: left_outer
+    sql_on: ${store_aggregates.order_year}=${rolling_year.full_year} ;;
+    relationship: many_to_one
+  }
+
+  join: store {
+    type: left_outer
+    sql_on: ${store_aggregates.store_id} = ${store.store_id} ;;
+    relationship: many_to_one
+  }
+
+}
 
 explore: state {
   join: customer {

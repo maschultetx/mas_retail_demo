@@ -134,7 +134,43 @@ explore: gender {
   }
 }
 
-explore: lineitem {}
+explore: lineitem {
+  join: product {
+    type: left_outer
+    sql_on: ${product.product_id} = ${lineitem.product_id} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_family {
+    type: left_outer
+    sql_on: ${product.family} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_category {
+    type: left_outer
+    sql_on: ${product.category} = ${prod_category.category} ;;
+    relationship: many_to_one
+  }
+
+  join: rolling_year {
+    type: left_outer
+    sql_on: year(${lineitem.order_date})=${rolling_year.full_year} ;;
+    relationship: many_to_one
+  }
+
+  join: store {
+    type: left_outer
+    sql_on: ${lineitem.store_id} = ${store.store_id} ;;
+    relationship: many_to_one
+  }
+
+  join: store_aggregates {
+    type: left_outer
+    sql_on: ${lineitem.store_id} = ${store_aggregates.store_id} ;;
+    relationship: many_to_one
+  }
+}
 
 
 explore: orders {

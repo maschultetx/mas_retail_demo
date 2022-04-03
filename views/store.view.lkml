@@ -7,6 +7,18 @@ view: store {
     primary_key: yes
     type: number
     sql: ${TABLE}.store_id ;;
+
+    link: {
+      label: "Store KPIs"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/78?Store%20ID={{ store.store_id._value | encode_uri}}&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
+      icon_url: "/favicon.ico"
+    }
+    link: {
+      label: "Store Detail"
+      #url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20ID={{ store.store_id._value | encode_uri}}"
+      icon_url: "/favicon.ico"
+    }
   }
 
   dimension: address {
@@ -73,12 +85,13 @@ view: store {
 
     link: {
       label: "Store KPIs"
-      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/78?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/78?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison20Filter=%22{{store.name._value | encode_uri}}%22"
       icon_url: "/favicon.ico"
     }
     link: {
       label: "Store Detail"
-      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
+      #url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22"
       icon_url: "/favicon.ico"
     }
     case_sensitive: no
@@ -139,9 +152,9 @@ view: store {
     type: string
     #group_label: "Store Comparison"
     sql: CASE
-      WHEN {% condition store_comparison_filter %} ${name} {% endcondition %} THEN ${name}
-      ELSE 'Other Stores'
-    END;;
+     WHEN {% condition store_comparison_filter %} ${name} {% endcondition %} THEN ${name}
+     ELSE 'Other Stores'
+  END;;
     #sql: CASE
     #  WHEN {{ _filters['store.name'] }} THEN ${name}
     #  ELSE 'Other Stores'
@@ -149,6 +162,8 @@ view: store {
     #sql: IF({% condition store_comparison_filter %} ${name} {% endcondition %}, ${name}, "Other Stores" );;
 
   }
+
+
 
 
 ##### DERIVED DIMENSIONS #####

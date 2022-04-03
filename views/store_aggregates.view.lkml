@@ -3,16 +3,11 @@ view: store_aggregates {
 
 
     sql:
-      select name as store_name, store.store_id, per_store_info.order_count as order_count, cast((per_store_info.invoice_store_total/per_store_info.order_count) as integer) as average_invoice_per_store
+      select per_store_info.store_id, per_store_info.order_count as order_count, cast((per_store_info.invoice_store_total/per_store_info.order_count) as integer) as average_invoice_per_store
       from per_store_info
-      join store on per_store_info.store_id = store.store_id
     ;;
   }
 
-  dimension: store_name {
-    type: string
-    sql:  ${TABLE}.store_name ;;
-  }
 
   dimension: store_id {
     type: number

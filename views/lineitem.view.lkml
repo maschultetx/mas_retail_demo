@@ -45,6 +45,11 @@ view: lineitem {
     sql: ${TABLE}.order_date ;;
   }
 
+  dimension: store_id {
+    type: string
+    sql: ${TABLE}.store_id ;;
+  }
+
   dimension: product_category {
     type: string
     sql: ${TABLE}.product_category ;;
@@ -77,9 +82,9 @@ view: lineitem {
     sql: ${TABLE}.return_flag ;;
   }
 
-  dimension: sale_price {
+  dimension: unit_price {
     type: number
-    sql: ${TABLE}.sale_price ;;
+    sql: ${TABLE}.unit_price ;;
   }
 
   dimension: order_id {
@@ -94,7 +99,7 @@ view: lineitem {
 
   dimension: gross_margin {
     type: number
-    sql: ${sale_price} - ${unit_cost} ;;
+    sql: ${unit_price} - ${unit_cost} ;;
   }
 
   measure: profit_percent {
@@ -126,7 +131,7 @@ view: lineitem {
 
   measure: total_sales {
     type: sum
-    sql: ${sale_price} ;;
+    sql: ${unit_price} ;;
     #value_format_name: currency_k
     value_format_name:  currency
     drill_fields: [transactions.drill_detail*]

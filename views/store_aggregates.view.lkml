@@ -17,7 +17,7 @@ view: store_aggregates {
 
   dimension: order_year {
     type: number
-    sql:  ${TABLE}.store_id ;;
+    sql:  ${TABLE}.order_year ;;
   }
 
   measure: avg_of_avg {

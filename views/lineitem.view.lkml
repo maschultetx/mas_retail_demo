@@ -133,7 +133,8 @@ view: lineitem {
     type: sum
     sql: ${unit_price} ;;
     #value_format_name: currency_k
-    value_format_name:  currency
+    #value_format_name:  currency
+    value_format: "$#,##0"
     drill_fields: [transactions.drill_detail*]
   }
 
@@ -147,7 +148,7 @@ view: lineitem {
   measure: total_quantity {
     type: sum
     sql: ${quantity} ;;
-    #value_format_name: unit_k
+    value_format_name: unit_k
     drill_fields: [transactions.drill_detail*]
   }
 

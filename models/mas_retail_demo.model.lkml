@@ -27,7 +27,19 @@ named_value_format: unit_k {
   value_format: "#,##0.0,\" K\""
 }
 
-explore: affinity {}
+explore: affinity {
+    join: store {
+    type: left_outer
+    sql_on: ${affinity.store_id} = ${store.store_id} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_family {
+    type: left_outer
+    sql_on: ${affinity.family1} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+}
 
 explore: channels {}
 

@@ -19,6 +19,11 @@ view: store {
       url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20ID={{ store.store_id._value | encode_uri}}"
       icon_url: "/favicon.ico"
     }
+    link: {
+      label: "Market Basket Analysis"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/66?Store%20ID={{ store.store_id._value | encode_uri}}"
+      icon_url: "/favicon.ico"
+    }
   }
 
   dimension: address {
@@ -85,13 +90,13 @@ view: store {
 
     link: {
       label: "Store KPIs"
-      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/78?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison20Filter=%22{{store.name._value | encode_uri}}%22"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/78?Store%20ID={{ store.store_id._value | encode_uri}}&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
       icon_url: "/favicon.ico"
     }
     link: {
       label: "Store Detail"
       #url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
-      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20Name=%22{{ store.name._value | encode_uri}}%22"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20ID={{ store.store_id._value | encode_uri}}"
       icon_url: "/favicon.ico"
     }
     case_sensitive: no

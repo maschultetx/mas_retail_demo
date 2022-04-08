@@ -62,8 +62,33 @@ view: orders {
     sql: ${TABLE}.web_order ;;
   }
 
+  dimension: gross_margin {
+    type: number
+    sql: ${invoice_total} - ${order_cost} ;;
+  }
 
-  measure: order_growth {
+  measure: profit_percent {
+    type: number
+    sql: ${total_gross_margin} * 100 / ${total_sales} ;;
+  }
+
+  measure: total_sales {
+    type: sum
+    sql: ${invoice_total} ;;
+    #value_format_name: currency_k
+    #value_format_name:  currency
+    value_format: "$#,##0"
+    drill_fields: [transactions.drill_detail*]
+  }
+
+  measure: total_gross_margin {
+    type: sum
+    sql: ${gross_margin} ;;
+    value_format_name: currency_k
+    drill_fields: [transactions.drill_detail*]
+  }
+
+  measure: order_number_growth {
     type:  percent_of_previous
     sql: ${count} ;;
   }
@@ -73,4 +98,27 @@ view: orders {
     label: "Number of Orders"
     drill_fields: [customer.customer_id, customer.first_name, customer.last_name, store.store_id, store.name]
   }
+
+  measure: average_basket_size {
+    type: number
+    #sql: ${total_sales}/NULLIF(${orders.number_of_transactions},0) ;;
+    sql: ${total_sales}/NULLIF(${count},0) ;;
+    #value_format_name: currency
+    value_format: "$#,##0"
+    drill_fields: [transactions.drill_detail*]
+  }
+
+
+  measure: sales_growth {
+    type:  percent_of_previous
+    sql: ${total_sales} ;;
+    value_format: "#,##0%"
+  }
+
+  measure: basket_growth {
+    type:  percent_of_previous
+    sql: ${average_basket_size} ;;
+    value_format: "#,##0%"
+  }
+
 }

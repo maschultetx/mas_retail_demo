@@ -21,7 +21,7 @@ view: store {
     }
     link: {
       label: "Market Basket Analysis"
-      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/66?Store%20ID={{ store.store_id._value | encode_uri}}"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/82?Store%20ID={{ store.store_id._value | encode_uri}}"
       icon_url: "/favicon.ico"
     }
   }

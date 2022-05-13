@@ -1,4 +1,4 @@
-view: lineitem {
+view: lineitem_base {
   sql_table_name: retail.lineitem ;;
 
   dimension: primary_key {

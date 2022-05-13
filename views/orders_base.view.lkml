@@ -1,5 +1,5 @@
-view: orders {
-  sql_table_name: retail.orders ;;
+view: orders_base {
+  sql_table_name: retail.orders_base ;;
 
   dimension: customer_id {
     type: number

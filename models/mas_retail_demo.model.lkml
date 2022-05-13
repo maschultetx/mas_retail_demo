@@ -41,6 +41,14 @@ explore: affinity {
   }
 }
 
+explore: marketbasket {
+   join: prod_family {
+    type: left_outer
+    sql_on: ${marketbasket.family1} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: channels {}
 
 explore: word_cloud {}
@@ -80,6 +88,12 @@ explore: customer {
     relationship: one_to_many
   }
 
+  join: orders_base {
+    type: left_outer
+    sql_on: ${customer.customer_id} = ${orders_base.customer_id} ;;
+    relationship: one_to_many
+  }
+
   join: distance_to_store {
     type: left_outer
     sql_on: ${customer.customer_id} = ${distance_to_store.customer_id} ;;
@@ -96,6 +110,12 @@ explore: customer {
   join: lineitem {
     type: left_outer
     sql_on: ${orders.order_id} = ${lineitem.order_id} ;;
+    relationship: one_to_many
+  }
+
+  join: lineitem_base {
+    type: left_outer
+    sql_on: ${orders.order_id} = ${lineitem_base.order_id} ;;
     relationship: one_to_many
   }
 

@@ -1,5 +1,5 @@
 view: lineitem_base {
-  sql_table_name: retail.lineitem ;;
+  sql_table_name: retail.lineitem_current ;;
 
   dimension: primary_key {
     primary_key: yes

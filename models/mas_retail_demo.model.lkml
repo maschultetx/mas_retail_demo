@@ -1,6 +1,6 @@
 #connection: "retail_demo_mas"
 #connection: "retail_demo_mas_1audev"
-connection: "retail_demo_mas"
+connection: "retail_demo_mas_gcp"
 label: "Actian Retail Demo"
 
 # include all the views
@@ -45,6 +45,12 @@ explore: marketbasket {
    join: prod_family {
     type: left_outer
     sql_on: ${marketbasket.family1} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: store {
+    type: left_outer
+    sql_on: ${marketbasket.store_id} = ${store.store_id} ;;
     relationship: many_to_one
   }
 }

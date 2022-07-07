@@ -162,6 +162,85 @@ explore: customer {
   }
 }
 
+explore: customer_yesterday {
+  join: country {
+    type: left_outer
+    sql_on: ${customer_yesterday.country_code} = ${country.country_code} ;;
+    relationship: many_to_one
+  }
+  join: gender {
+    type: left_outer
+    sql_on: ${customer_yesterday.gender} = ${gender.gender} ;;
+    relationship: many_to_one
+  }
+  join: state {
+    type: left_outer
+    sql_on: ${customer_yesterday.state} = ${state.state} ;;
+    relationship: many_to_one
+  }
+
+  join: orders_yesterday {
+    type: left_outer
+    sql_on: ${customer_yesterday.customer_id} = ${orders_yesterday.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: orders_base {
+    type: left_outer
+    sql_on: ${customer_yesterday.customer_id} = ${orders_base.customer_id} ;;
+    relationship: one_to_many
+  }
+
+  join: distance_to_store {
+    type: left_outer
+    sql_on: ${customer_yesterday.customer_id} = ${distance_to_store.customer_id} ;;
+    relationship: one_to_one
+  }
+
+  join: lineitem_yesterday {
+    type: left_outer
+    sql_on: ${orders_yesterday.order_id} = ${lineitem_yesterday.order_id} ;;
+    relationship: one_to_many
+  }
+
+  join: promotion_yesterday {
+    type: left_outer
+    sql_on: ${lineitem_yesterday.promotion_id} = ${promotion_yesterday.promotion_id} ;;
+    relationship: many_to_one
+  }
+
+  join: store_yesterday {
+    type: left_outer
+    sql_on: ${orders_yesterday.store_id} = ${store_yesterday.store_id} ;;
+    relationship: many_to_one
+  }
+
+  join: product {
+    type: left_outer
+    sql_on: ${product.product_id} = ${lineitem_yesterday.product_id} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_family {
+    type: left_outer
+    sql_on: ${product.family} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_category {
+    type: left_outer
+    sql_on: ${product.category} = ${prod_category.category} ;;
+    relationship: many_to_one
+  }
+
+  join: store_aggregates {
+    type: left_outer
+    sql_on: ${orders_yesterday.store_id} = ${store_aggregates.store_id} ;;
+    relationship: many_to_one
+  }
+}
+
+
 explore: date_dimension {}
 
 explore: gender {
@@ -206,6 +285,38 @@ explore: lineitem {
   join: store_aggregates {
     type: left_outer
     sql_on: ${lineitem.store_id} = ${store_aggregates.store_id} ;;
+    relationship: many_to_one
+  }
+}
+
+explore: lineitem_yesterday {
+  join: product {
+    type: left_outer
+    sql_on: ${product.product_id} = ${lineitem_yesterday.product_id} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_family {
+    type: left_outer
+    sql_on: ${product.family} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_category {
+    type: left_outer
+    sql_on: ${product.category} = ${prod_category.category} ;;
+    relationship: many_to_one
+  }
+
+  join: store_yesterday {
+    type: left_outer
+    sql_on: ${lineitem_yesterday.store_id} = ${store_yesterday.store_id} ;;
+    relationship: many_to_one
+  }
+
+  join: store_aggregates {
+    type: left_outer
+    sql_on: ${lineitem_yesterday.store_id} = ${store_aggregates.store_id} ;;
     relationship: many_to_one
   }
 }
@@ -263,6 +374,57 @@ explore: orders {
   join: rolling_year {
     type: left_outer
     sql_on: year(${orders.order_date})=${rolling_year.full_year} ;;
+    relationship: many_to_one
+  }
+
+}
+
+explore: orders_yesterday {
+  join: customer_yesterday {
+    type: left_outer
+    sql_on: ${orders_yesterday.customer_id} = ${customer_yesterday.customer_id} ;;
+    relationship: many_to_one
+  }
+
+  join: lineitem_yesterday {
+    type: left_outer
+    sql_on: ${orders_yesterday.order_id} = ${lineitem_yesterday.order_id} ;;
+    relationship: one_to_many
+  }
+
+  join: promotion {
+    type: left_outer
+    sql_on: ${lineitem_yesterday.promotion_id} = ${promotion.promotion_id} ;;
+    relationship: many_to_one
+  }
+
+  join: store_yesterday {
+    type: full_outer
+    sql_on: ${orders_yesterday.store_id} = ${store_yesterday.store_id} ;;
+    relationship: many_to_one
+  }
+
+  join: product  {
+    type: left_outer
+    sql_on: ${product.product_id} = ${lineitem_yesterday.product_id} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_family {
+    type: left_outer
+    sql_on: ${product.family} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: prod_category {
+    type: left_outer
+    sql_on: ${product.category} = ${prod_category.category} ;;
+    relationship: many_to_one
+  }
+
+  join: store_aggregates {
+    type: left_outer
+    sql_on: ${orders_yesterday.store_id} = ${store_aggregates.store_id} ;;
     relationship: many_to_one
   }
 
@@ -382,6 +544,32 @@ explore: store {
   join: top_store_products {
     type: inner
     sql_on: ${store.store_id} = ${top_store_products.store_id} ;;
+    relationship: one_to_many
+  }
+
+  join: product {
+    type: left_outer
+    sql_on: ${product.product_id} = ${top_store_products.product_id} ;;
+    relationship: one_to_many
+  }
+}
+
+explore: store_yesterday {
+  join: store_aggregates {
+    type: left_outer
+    sql_on: ${store_yesterday.store_id} = ${store_aggregates.store_id} ;;
+    relationship: one_to_one
+  }
+
+  join: orders_yesterday {
+    type: left_outer
+    sql_on: ${store_yesterday.store_id} = ${orders_yesterday.store_id} ;;
+    relationship: one_to_many
+  }
+
+  join: top_store_products {
+    type: inner
+    sql_on: ${store_yesterday.store_id} = ${top_store_products.store_id} ;;
     relationship: one_to_many
   }
 

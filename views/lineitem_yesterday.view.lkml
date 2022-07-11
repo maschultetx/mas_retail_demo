@@ -192,4 +192,5 @@ view: lineitem_yesterday {
     label: "Maximum Order Date"
     convert_tz: no
   }
-}
+
+ }

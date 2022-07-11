@@ -1,6 +1,6 @@
 view: store {
   sql_table_name: retail.store ;;
-  label: "Stores 🏪"
+  label: "Store 🏪"
   drill_fields: [store_id]
 
   dimension: store_id {

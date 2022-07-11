@@ -1,8 +1,8 @@
 # this database view moves data forward into the future
 
 view: store_yesterday{
-  sql_table_name: retail.store_yesterday ;;
-  label: "Stores 🏪"
+  sql_table_name: retail.store_yesterdayview ;;
+  #label: "Store 🏪"
   drill_fields: [store_id]
 
   dimension: store_id {

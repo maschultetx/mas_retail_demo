@@ -243,6 +243,8 @@ explore: customer_yesterday {
 
 explore: date_dimension {}
 
+explore: minmaxdateview {}
+
 explore: gender {
   join: customer {
     type: left_outer
@@ -319,6 +321,7 @@ explore: lineitem_yesterday {
     sql_on: ${lineitem_yesterday.store_id} = ${store_aggregates.store_id} ;;
     relationship: many_to_one
   }
+
 }
 
 

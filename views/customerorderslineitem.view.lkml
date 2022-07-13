@@ -55,20 +55,6 @@ view: customerorderslineitem {
     case_sensitive: no
   }
 
-  dimension_group: date_of_birth {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.date_of_birth ;;
-  }
-
   dimension: first_name {
     type: string
     sql: ${TABLE}.first_name ;;
@@ -113,13 +99,6 @@ view: customerorderslineitem {
 
 
   ##### CUSTOM DIMENSIONS #####
-
-  dimension: age {
-    type: number
-    sql:  timestampdiff(days,${date_of_birth_date},current_date)/365;;
-  }
-
-
 
   measure: count {
     type: count

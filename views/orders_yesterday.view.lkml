@@ -53,6 +53,20 @@ view: orders_yesterday {
     sql: ${TABLE}.order_date ;;
   }
 
+  dimension_group: otimestamp {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.otimestamp ;;
+  }
+
   dimension: store_id {
     type: number
     # hidden: yes

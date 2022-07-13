@@ -27,6 +27,22 @@ named_value_format: unit_k {
   value_format: "#,##0.0,\" K\""
 }
 
+explore: customerorderslineitem {
+
+  join: distance_to_store {
+    type: left_outer
+    sql_on: ${customerorderslineitem.customer_id} = ${distance_to_store.customer_id} ;;
+    relationship: one_to_one
+  }
+
+  join: gender {
+    type: left_outer
+    sql_on: ${customerorderslineitem.gender} = ${gender.gender} ;;
+    relationship: many_to_one
+  }
+
+}
+
 explore: affinity {
     join: store {
     type: left_outer
@@ -39,6 +55,7 @@ explore: affinity {
     sql_on: ${affinity.family1} = ${prod_family.family} ;;
     relationship: many_to_one
   }
+
 }
 
 explore: marketbasket {
@@ -54,6 +71,21 @@ explore: marketbasket {
     relationship: many_to_one
   }
 }
+
+explore: marketbasket_yesterday {
+  join: prod_family {
+    type: left_outer
+    sql_on: ${marketbasket_yesterday.family1} = ${prod_family.family} ;;
+    relationship: many_to_one
+  }
+
+  join: store_yesterday {
+    type: left_outer
+    sql_on: ${marketbasket_yesterday.store_id} = ${store_yesterday.store_id} ;;
+    relationship: many_to_one
+  }
+}
+
 
 explore: channels {}
 

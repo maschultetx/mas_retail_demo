@@ -31,7 +31,7 @@ view: minmaxdateview {
 
   measure: date_range {
     type: string
-    sql: to_char(${mindate_date},'DD-MON-YY') + '  to  ' + to_char(${maxdate_date},'DD-MON-YY') ;;
+    sql: to_char(${mindate_date},'DD-MON-YYYY') + '  to  ' + to_char(${maxdate_date},'DD-MON-YYYY') ;;
     label: "Data Date Range"
   }
 

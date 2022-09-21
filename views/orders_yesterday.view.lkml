@@ -103,6 +103,14 @@ view: orders_yesterday {
     drill_fields: [transactions.drill_detail*]
   }
 
+  # use for any euro display
+  measure: total_sales_fr {
+    type: sum
+    sql: ${invoice_total} ;;
+    value_format: "\"€\"###0"
+    drill_fields: [transactions.drill_detail*]
+  }
+
   measure: total_gross_margin {
     type: sum
     sql: ${gross_margin} ;;
@@ -127,6 +135,16 @@ view: orders_yesterday {
     sql: ${total_sales}/NULLIF(${count},0) ;;
     #value_format_name: currency
     value_format: "$#,##0"
+    drill_fields: [transactions.drill_detail*]
+  }
+
+  # use for any euro display
+  measure: average_basket_size_fr {
+    type: number
+    #sql: ${total_sales}/NULLIF(${orders.number_of_transactions},0) ;;
+    sql: ${total_sales}/NULLIF(${count},0) ;;
+    #value_format_name: currency
+    value_format: "\"€\"###0"
     drill_fields: [transactions.drill_detail*]
   }
 

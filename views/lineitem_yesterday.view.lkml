@@ -140,6 +140,14 @@ view: lineitem_yesterday {
     drill_fields: [transactions.drill_detail*]
   }
 
+  # use for any euro display
+  measure: total_sales_fr {
+    type: sum
+    sql: ${unit_price} ;;
+    value_format: "\"€\"###0"
+    drill_fields: [transactions.drill_detail*]
+  }
+
   measure: total_gross_margin {
     type: sum
     sql: ${gross_margin} ;;

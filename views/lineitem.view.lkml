@@ -138,6 +138,14 @@ view: lineitem {
     drill_fields: [transactions.drill_detail*]
   }
 
+  # use for any euro display
+  measure: total_sales_fr {
+    type: sum
+    sql: ${unit_price} ;;
+    value_format: "\"€\"###0"
+    drill_fields: [transactions.drill_detail*]
+  }
+
   measure: total_gross_margin {
     type: sum
     sql: ${gross_margin} ;;
@@ -156,6 +164,15 @@ view: lineitem {
     type: number
     #sql: ${total_sales}/NULLIF(${orders.number_of_transactions},0) ;;
     sql: ${total_sales}/NULLIF(${distinct_orders},0) ;;
+    value_format: "\"€\"###0"
+    drill_fields: [transactions.drill_detail*]
+  }
+
+  # use for any euro display
+  measure: average_basket_size_fr {
+    type: number
+    #sql: ${total_sales}/NULLIF(${orders.number_of_transactions},0) ;;
+    sql: ${total_sales}/NULLIF(${distinct_orders},0) ;;
     value_format_name: currency
     drill_fields: [transactions.drill_detail*]
   }
@@ -164,6 +181,14 @@ view: lineitem {
     type: number
     sql: ${total_sales}/NULLIF(${total_quantity},0) ;;
     value_format_name: currency
+    drill_fields: [transactions.drill_detail*]
+  }
+
+  # use for any euro display
+  measure: average_item_price_fr {
+    type: number
+    sql: ${total_sales}/NULLIF(${total_quantity},0) ;;
+    value_format: "\"€\"###0"
     drill_fields: [transactions.drill_detail*]
   }
 

@@ -2,6 +2,7 @@ view: word_cloud {
   sql_table_name: retail.word_cloud ;;
 
   dimension: word {
+    primary_key:  yes
     type: string
     sql: ${TABLE}.word ;;
   }

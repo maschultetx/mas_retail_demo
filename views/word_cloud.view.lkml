@@ -6,6 +6,11 @@ view: word_cloud {
     sql: ${TABLE}.word ;;
   }
 
+  dimension: lang {
+    type: string
+    sql: ${TABLE}.lang ;;
+  }
+
   measure: val {
     type: average
     sql: ${TABLE}.val ;;

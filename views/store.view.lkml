@@ -26,6 +26,48 @@ view: store {
     }
   }
 
+  dimension: store_id_fr {
+    type: number
+    sql: ${TABLE}.store_id ;;
+
+    link: {
+      label: "Indice de Clé de Performance du Magasin"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/109?Identifiant%20Magasin={{ store.store_id._value | encode_uri}}&Magasin%20Filtre%20de%20Comparaison=%22{{store.name._value | encode_uri}}%22"
+      icon_url: "/favicon.ico"
+    }
+    link: {
+      label: "Détal Magasin"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/107?Identifiant%20Magasin={{ store.store_id._value | encode_uri}}"
+      icon_url: "/favicon.ico"
+    }
+    link: {
+      label: "Affinité Ventes"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/103?Identifiant%20Magasin={{ store.store_id._value | encode_uri}}"
+      icon_url: "/favicon.ico"
+    }
+  }
+
+  dimension: store_id_de {
+    type: number
+    sql: ${TABLE}.store_id ;;
+
+    link: {
+      label: "Filial-Leistungsindikatoren (KPIs) "
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/110?Store%20ID={{ store.store_id._value | encode_uri}}&Store%20Comparison%20Filter=%22{{store.name._value | encode_uri}}%22"
+      icon_url: "/favicon.ico"
+    }
+    link: {
+      label: "Filialdetail"
+       url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Store%20ID={{ store.store_id._value | encode_uri}}"
+      icon_url: "/favicon.ico"
+    }
+    link: {
+      label: "Absatz-Affinität"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/104?Store%20ID={{ store.store_id._value | encode_uri}}"
+      icon_url: "/favicon.ico"
+    }
+  }
+
   dimension: address {
     group_label: "Address Info"
     type: string

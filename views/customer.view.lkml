@@ -176,6 +176,31 @@ view: customer {
     }
   }
 
+  dimension: location_fr {
+    type: location
+    group_label: "Address Info"
+    sql_latitude: ${TABLE}.latitude ;;
+    sql_longitude: ${TABLE}.longitude ;;
+    link: {
+      #url: "https://actianavalanchepartner.cloud.looker.com/dashboards/95?Address=%22{{ customer.address._value | encode_uri}}%22&Location={{customer.location._value | encode_uri}}&Custid={{customer.custid._value | encode_uri}}"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/95?Address=%22{{ customer.address._value | encode_uri}}%22&Localisation={{customer.location._value | encode_uri}}&IDduClient={{customer.custid._value | encode_uri}}"
+      label: "Détail Client"
+      icon_url: "https://img.icons8.com/cotton/2x/worldwide-location.png"
+    }
+  }
+
+  dimension: location_de {
+    type: location
+    group_label: "Address Info"
+    sql_latitude: ${TABLE}.latitude ;;
+    sql_longitude: ${TABLE}.longitude ;;
+    link: {
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/96?Address=%22{{ customer.address._value | encode_uri}}%22&Location={{customer.location._value | encode_uri}}&Custid={{customer.custid._value | encode_uri}}"
+      label: "Kundendetail"
+      icon_url: "https://img.icons8.com/cotton/2x/worldwide-location.png"
+    }
+  }
+
   dimension: address_street_view {
     type: string
     group_label: "Address Info"

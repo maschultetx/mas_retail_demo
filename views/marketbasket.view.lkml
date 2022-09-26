@@ -23,8 +23,8 @@ from
     group by
       1, 2, 3
   ) mb
-  join product p1 on mb.product_id1 = p1.product_id
-  join product p2 on mb.product_id2 = p2.product_id
+  join retail.product p1 on mb.product_id1 = p1.product_id
+  join retail.product p2 on mb.product_id2 = p2.product_id
   ;;
   }
 

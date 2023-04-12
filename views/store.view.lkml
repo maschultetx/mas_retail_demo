@@ -210,10 +210,19 @@ view: store {
 
   }
 
+  dimension:  online_store {
+    type:  string
+    sql:  ${TABLE}.online_store ;;
+    case_sensitive: no
+  }
+
+  dimension:  store_size {
+    type:  string
+    sql:  ${TABLE}.store_size ;;
+  }
 
 
-
-##### DERIVED DIMENSIONS #####
+  ##### DERIVED DIMENSIONS #####
 
   dimension: location {
     type: location

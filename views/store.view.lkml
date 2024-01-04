@@ -53,12 +53,12 @@ view: store {
 
     link: {
       label: "Filial-Leistungsindikatoren (KPIs) "
-      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/110?Filialnummer={{ store.store_id._value | encode_uri}}&Vergleichsfilter%20Speichern=%22{{store.name._value | encode_uri}}%22"
+      url: "https://actianavalanchepartner.cloud.looker.com/dashboards/115?Filialnummer={{ store.store_id._value | encode_uri}}&Vergleichsfilter%20Speichern=%22{{store.name._value | encode_uri}}%22"
       icon_url: "/favicon.ico"
     }
     link: {
       label: "Filialdetail"
-       url: "https://actianavalanchepartner.cloud.looker.com/dashboards/64?Filialnummer={{ store.store_id._value | encode_uri}}"
+       url: "https://actianavalanchepartner.cloud.looker.com/dashboards/108?Filialnummer={{ store.store_id._value | encode_uri}}"
       icon_url: "/favicon.ico"
     }
     link: {

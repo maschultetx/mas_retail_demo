@@ -1,6 +1,6 @@
 #connection: "retail_demo_mas"
-connection: "retail_demo_mas_gcp"
-#connection: "retail_demo_mas_gcp_prod"
+#connection: "retail_demo_mas_gcp"
+connection: "retail_demo_mas_gcp_prod"
 label: "Actian Retail Demo"
 
 # include all the views
